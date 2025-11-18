@@ -26,11 +26,11 @@ impl QuadraticApp {
         let re_near_zero = c.re.abs() < 1e-12;
         let im_near_zero = c.im.abs() < 1e-12;
         if im_near_zero {
-            format!("{:.6}", c.re)
+            format!("{:.12}", c.re)
         } else if re_near_zero {
-            format!("{:.6}i", c.im)
+            format!("{:.12}i", c.im)
         } else {
-            format!("{:.6} {:+.6}i", c.re, c.im)
+            format!("{:.12} {:+.12}i", c.re, c.im)
         }
     }
 
@@ -181,7 +181,7 @@ impl eframe::App for QuadraticApp {
 
             if let Some(disc) = self.discriminant {
                 let color = if disc >= 0.0 { egui::Color32::from_rgb(0, 180, 0) } else { egui::Color32::from_rgb(200, 100, 0) };
-                ui.label(egui::RichText::new(format!("D = {:.6}", disc)).size(20.0).color(color));
+                ui.label(egui::RichText::new(format!("D = {:.12}", disc)).size(20.0).color(color));
             }
             
             if !self.output.is_empty() {
@@ -202,11 +202,17 @@ impl eframe::App for QuadraticApp {
                 if ui.button("x² + 1 = 0").clicked() {
                     self.load_example(1.0, 0.0, 1.0);
                 }
-                if ui.button("x² - 4 = 0").clicked() {
-                    self.load_example(1.0, 0.0, -4.0);
+                if ui.button("x² - 2 = 0").clicked() {
+                    self.load_example(1.0, 0.0, -2.0);
                 }
-                if ui.button("x² - 2x + 1 = 0").clicked() {
-                    self.load_example(1.0, -2.0, 1.0);
+                if ui.button("x² - 3x + 1 = 0").clicked() {
+                    self.load_example(1.0, -3.0, 1.0);
+                }
+                if ui.button("2x² - 7x + 3 = 0").clicked() {
+                    self.load_example(2.0, -7.0, 3.0);
+                }
+                if ui.button("x² - √2x + 1 = 0").clicked() {
+                    self.load_example(1.0, -2.0_f64.sqrt(), 1.0);
                 }
             });
 

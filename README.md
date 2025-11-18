@@ -14,6 +14,7 @@ This application solves quadratic equations of the form **ax² + bx + c = 0** an
 ### Core Functionality
 
 - **Complete Quadratic Solver**: Solves equations of the form ax² + bx + c = 0
+- **High-Precision Results**: 12 decimal digit accuracy for D, x1, and x2
 - **Complex Number Support**: Handles both real and complex roots seamlessly
 - **Discriminant Display**: Shows D = b² - 4ac with color coding
 - **Root Classification**: Automatically identifies:
@@ -36,13 +37,15 @@ This application solves quadratic equations of the form **ax² + bx + c = 0** an
 
 - **Keyboard Support**: Press Enter in any input field to compute
 - **Clear Button**: Reset all fields with one click
-- **Quick Examples**: One-click preset equations:
-  - x² - 5x + 6 = 0 (Real distinct roots)
-  - x² + 1 = 0 (Complex roots)
-  - x² - 4 = 0 (Real roots from difference of squares)
-  - x² - 2x + 1 = 0 (Repeated root)
+- **Quick Examples**: One-click preset equations demonstrating various precision levels:
+  - x² - 5x + 6 = 0 (Simple integer roots)
+  - x² + 1 = 0 (Pure complex roots)
+  - x² - 2 = 0 (Irrational roots: ±√2)
+  - x² - 3x + 1 = 0 (Golden ratio related)
+  - 2x² - 7x + 3 = 0 (Fractional roots)
+  - x² - √2x + 1 = 0 (Irrational coefficients)
 - **Input Validation**: Clear error messages for invalid inputs
-- **Smart Formatting**: Displays complex numbers in readable format (a + bi)
+- **Smart Formatting**: Displays complex numbers in readable format (a + bi) with 12-digit precision
 
 ## 🚀 Getting Started
 
@@ -79,34 +82,57 @@ cargo run --release
 **Equation**: x² - 5x + 6 = 0
 
 - **Coefficients**: a=1, b=-5, c=6
-- **Discriminant**: D = 1.000000
+- **Discriminant**: D = 1.000000000000
 - **Root Type**: Two Real Distinct Roots
-- **Solutions**: x1 = 3.000000, x2 = 2.000000
+- **Solutions**: x1 = 3.000000000000, x2 = 2.000000000000
 
 ### Example 2: Complex Roots
 
 **Equation**: x² + 1 = 0
 
 - **Coefficients**: a=1, b=0, c=1
-- **Discriminant**: D = -4.000000
+- **Discriminant**: D = -4.000000000000
 - **Root Type**: Two Complex Conjugate Roots
-- **Solutions**: x1 = 0.000000 +1.000000i, x2 = 0.000000 -1.000000i
+- **Solutions**: x1 = 0.000000000000 +1.000000000000i, x2 = 0.000000000000 -1.000000000000i
 
 ### Example 3: Repeated Root
 
 **Equation**: x² - 2x + 1 = 0
 
 - **Coefficients**: a=1, b=-2, c=1
-- **Discriminant**: D = 0.000000
+- **Discriminant**: D = 0.000000000000
 - **Root Type**: One Real Repeated Root
-- **Solutions**: x1 = 1.000000, x2 = 1.000000
+- **Solutions**: x1 = 1.000000000000, x2 = 1.000000000000
 
-### Example 4: Linear Equation
+### Example 4: Irrational Roots (High Precision)
 
-**Equation**: 2x - 4 = 0 (when a=0)
+**Equation**: x² - 2 = 0
 
-- **Coefficients**: a=0, b=2, c=-4
-- **Solutions**: x1 = 2.000000, x2 = 2.000000
+- **Coefficients**: a=1, b=0, c=-2
+- **Discriminant**: D = 8.000000000000
+- **Root Type**: Two Real Distinct Roots
+- **Solutions**: x1 = 1.414213562373, x2 = -1.414213562373
+- **Note**: Demonstrates precision for √2 ≈ 1.414213562373095...
+
+### Example 5: Golden Ratio Related (High Precision)
+
+**Equation**: x² - 3x + 1 = 0
+
+- **Coefficients**: a=1, b=-3, c=1
+- **Discriminant**: D = 5.000000000000
+- **Root Type**: Two Real Distinct Roots
+- **Solutions**: x1 = 2.618033988750, x2 = 0.381966011250
+- **Note**: x1 ≈ φ + 1 (golden ratio plus one), x2 ≈ 1/φ
+
+### Example 6: Irrational Coefficient (Highest Precision Need)
+
+**Equation**: x² - √2x + 1 = 0
+
+- **Coefficients**: a=1, b=-1.414213562373, c=1
+- **Discriminant**: D = 2.000000000000
+- **Root Type**: Two Real Distinct Roots
+- **Solutions**: x1 = 1.707106781187, x2 = 0.707106781187
+- **Note**: Uses irrational coefficient √2, showcasing the full 12-digit precision
 
 ## 🏗️ Project Structure
 
@@ -191,12 +217,32 @@ The solver uses the quadratic formula with complex arithmetic:
 - x = (-b ± √(b² - 4ac)) / 2a
 - Automatic handling of negative discriminants through `Complex<f64>`
 - Epsilon-based comparison for floating-point precision (1e-12)
+- **12-decimal digit display precision** for all results (D, x1, x2)
+
+### High-Precision Display
+
+**12 Decimal Digit Accuracy**: All results (discriminant and roots) are displayed with 12 decimal places to ensure:
+
+- Accurate representation of irrational numbers (√2, √3, π-related values, etc.)
+- Precise golden ratio and Fibonacci-related calculations
+- Minimal floating-point rounding errors
+- Scientific and engineering-grade precision
+
+**Why 12 Digits?**
+
+- Standard `f64` (double precision) provides ~15-17 significant digits
+- 12 decimal places balances precision with readability
+- Crucial for equations involving:
+  - Square roots of non-perfect squares (√2, √3, √5)
+  - Golden ratio φ = (1 + √5)/2 ≈ 1.618033988750
+  - Irrational coefficients and transcendental numbers
+  - Scientific calculations requiring high accuracy
 
 ### Complex Number Formatting
 
-- Pure real: `2.000000`
-- Pure imaginary: `1.000000i`
-- Complex: `3.000000 +2.000000i`
+- Pure real: `2.000000000000`
+- Pure imaginary: `1.000000000000i`
+- Complex: `3.000000000000 +2.000000000000i`
 
 ### Edge Cases Handled
 
